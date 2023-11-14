@@ -17,7 +17,6 @@ def get_offers():
 
 # 余币宝
 
-
 def get_savings_balance():
     fundingAPI = get_client(Funding.FundingAPI)
     return fundingAPI.get_saving_balance()

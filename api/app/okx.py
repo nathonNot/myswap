@@ -32,3 +32,7 @@ def get_earning_orders_active():
 @okx_router.get("/funding/saving-balance", description="余币宝余额")
 def get_funding_saving_balance():
     return earning.get_savings_balance()
+
+@okx_router.get("/balance", description="交易所账户余额")
+def get_exchange_banlance():
+    return funding.get_asset_valuation()
