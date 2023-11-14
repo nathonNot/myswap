@@ -1,15 +1,11 @@
 
-import okx.Account as Account
-
-
-
+from okx import Account
 
 
 def get_account():
     # API 初始化
-    from . import apikey, secretkey, passphrase, flag
-    accountAPI = Account.AccountAPI(
-        apikey, secretkey, passphrase, False, flag, debug=False)
+    from . import get_client
+    accountAPI = get_client(Account.AccountAPI)
     return accountAPI
 
 

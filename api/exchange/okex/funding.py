@@ -1,11 +1,8 @@
-from . import apikey, secretkey, passphrase, flag
-import okx.Funding as Funding
-
-
-
+from . import get_client
+from okx import Funding
 
 def get_funding():
-    return Funding.FundingAPI(apikey, secretkey, passphrase, False, flag, debug=False)
+    return get_client(Funding.FundingAPI)
 
 
 def get_balances():
