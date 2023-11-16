@@ -13,7 +13,6 @@ def login_for_access_token(form_data: Login, db: Session = Depends(get_db)):
     if form_data.email == "":
         raise HTTPException(status_code=400, detail="Email cannot be empty")
     user = db.query(User).filter(User.email == form_data.email).first()
-    # hashed_password = 
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=400,

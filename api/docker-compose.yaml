@@ -1,0 +1,21 @@
+version: '3.6'
+
+services:
+  api:
+    ports:
+      - "58841:80"
+    build:
+      context: /home/myswap/api
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+    volumes:
+      - /home/myswap/api:/app
+    networks:
+      - backend
+    logging:
+      options:
+        max-size: "1m"
+
+networks:
+  backend:
