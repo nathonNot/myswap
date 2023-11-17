@@ -1,35 +1,26 @@
 import React, { useState } from 'react';
 import { Input, Button, Card } from '@nextui-org/react';
-import axios from 'axios';
+import { httpService } from '../../http/httpService';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage: React.FC = () => {
+
+const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  let navigate = useNavigate();
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
-      axios.post('https://your-api-url.com/login', { username, password })
-        .then(response => {
-          const token = response.data.token;
-          localStorage.setItem('token', token);
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-          // 导航到主页或其他页面
-        })
-        .catch(error => {
-          // 处理登录错误
-        });
-
-      // 保存 token 到本地存储或状态管理库
-      // localStorage.setItem('token', token);
-
+      const data = await httpService.login(username, password);
+      const token = data.token;
+      localStorage.setItem('token', token);
+      httpService.setToken(token); // 设置全局 token
+      // 导航到主页或其他页面
+      navigate('/');
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error('Login error', error.response);
-      } else {
-        console.error('Unexpected error', error);
-      }
+      console.log(error);
     }
   };
 

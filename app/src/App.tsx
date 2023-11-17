@@ -1,4 +1,5 @@
 import LoginPage from './page/login/LoginPage';
+import HelloPage from './page/hello/HelloPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './route/ProtectedRoute';
 
@@ -11,7 +12,7 @@ const App = () => {
           path="/"
           element={
             <ProtectedRoute>
-              {/* <HomePage /> */}
+              <HelloPage />
             </ProtectedRoute>
           }
         />

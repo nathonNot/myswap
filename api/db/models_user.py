@@ -22,4 +22,7 @@ class UserExchange(Base):
     __tablename__ = "u_user_exchanges"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("u_users.id"))
-    
+    exchange_id = Column(Integer, ForeignKey("s_exchanges.id"))
+    api_key = Column(String)
+    api_secret = Column(String)
+    api_passphrase = Column(String)
