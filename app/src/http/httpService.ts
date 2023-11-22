@@ -14,10 +14,12 @@ class HttpService {
     }
     createData.baseURL = "http://8.222.188.249:8000";
     this.axiosInstance = axios.create(createData);
+    localStorage.getItem('token') && this.setToken(localStorage.getItem('token')!);
   }
 
   public setToken(token: string): void {
-    this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    this.axiosInstance.defaults.headers.common['Authorization'] = `bearer ${token}`;
+    this.axiosInstance.defaults.headers.common['token'] = token;
   }
 
   public async login(username: string, password: string): Promise<any> {
@@ -33,6 +35,29 @@ class HttpService {
       // 错误处理
       throw error;
     }
+  }
+
+  public async getAllMoney(): Promise<number> {
+    // const accountBalance = await this.axiosInstance.get('/api/okx/account/balance');
+    // const fundingBalance = await this.axiosInstance.get('/api/okx/funding/balance');
+    // const fundingValuation = await this.axiosInstance.get('/api/okx/funding/valuation');
+    // const earningOffers = await this.axiosInstance.get('/api/okx/earning/offers');
+    // const earningOrderActive = await this.axiosInstance.get('/api/okx/earning/orders-active');
+    // const fundingSavingBalance = await this.axiosInstance.get('/api/okx/funding/saving-balance');
+    const res = await this.axiosInstance.get('/api/okx/balance');
+    let allMoney = 0;
+    res.data.data.forEach((element: { loanAmt: number; }) => {
+      allMoney += Number(element.loanAmt);
+    });
+    return allMoney;
+  }
+
+  public async checkToken(token: string): Promise<boolean> {
+    const data = await this.axiosInstance.get('/api/user/check?token=' + token);
+    if (data.data.code == 200) {
+      return true;
+    }
+    return false;
   }
 
   // 其他 API 方法...

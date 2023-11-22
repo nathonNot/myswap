@@ -22,4 +22,7 @@ def get_db():
     finally:
         db.close()
         
+def get_db_session():
+    return SessionLocal()
+        
 from .models_user import User,Exchange,UserExchange

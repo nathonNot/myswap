@@ -14,7 +14,7 @@ const LoginPage = () => {
 
     try {
       const data = await httpService.login(username, password);
-      const token = data.token;
+      const token = data.access_token;
       localStorage.setItem('token', token);
       httpService.setToken(token); // 设置全局 token
       // 导航到主页或其他页面

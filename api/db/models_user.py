@@ -1,7 +1,8 @@
+from fastapi import Depends
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-from . import Base
+from . import Base, get_db, get_db_session
 
 
 class User(Base):
@@ -11,6 +12,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
+
 
 class Exchange(Base):
     __tablename__ = "s_exchanges"
@@ -26,3 +28,11 @@ class UserExchange(Base):
     api_key = Column(String)
     api_secret = Column(String)
     api_passphrase = Column(String)
+
+
+def get_user_exchange(user_id: int):
+    db = get_db_session()
+    
+    user_exchange = db.query(UserExchange).filter(UserExchange.user_id == user_id).filter(UserExchange.exchange_id == 1).first()
+    db.close()
+    return user_exchange
