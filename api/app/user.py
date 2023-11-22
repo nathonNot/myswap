@@ -1,7 +1,7 @@
 from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from common.token import Token, Login, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, verify_password
+from common.token import Token, Login, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, verify_password, verify_token
 from db import get_db
 from db.models_user import User
 
@@ -25,3 +25,9 @@ def login_for_access_token(form_data: Login, db: Session = Depends(get_db)):
               "id": user.id}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@user_router.get("/check")
+def check_token(token: str):
+    verify_token(token)
+    return "ok"

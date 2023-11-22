@@ -57,3 +57,17 @@ def get_current_user(token: str = Header(None)) -> TokenUser:
         raise HTTPException(status_code=401, detail="Not authenticated")
 
     return user  # 或者返回用户对象
+
+
+def verify_token(token):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user = TokenUser()
+        user.email = payload.get("email")
+        if user.email is None:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+        user.id = payload.get("id")
+        # 这里可以添加更多的用户验证逻辑
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return user  # 或者返回用户对象
