@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Input, Button, Card } from '@nextui-org/react';
 import { httpService } from '../../http/httpService';
 import { useNavigate } from 'react-router-dom';
+import { Button, Card, Checkbox, Form, Input } from 'antd';
 
 
 const loginPageStyle: React.CSSProperties = {
@@ -12,54 +12,62 @@ const loginPageStyle: React.CSSProperties = {
   transform: "translate(-50%, -50%)",
 }
 
-const loginInputStyle: React.CSSProperties = {
-  marginTop: '10px',
-  paddingLeft: '5px',
-}
+type FieldType = {
+  username?: string;
+  password?: string;
+};
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   let navigate = useNavigate();
-
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    try {
-      const data = await httpService.login(username, password);
+  const onFinish = (values: any) => {
+    httpService.login(values.username, values.password).then((data) => {
       const token = data.access_token;
       localStorage.setItem('token', token);
       httpService.setToken(token); // 设置全局 token
       // 导航到主页或其他页面
       navigate('/');
-    } catch (error) {
-      console.log(error);
-    }
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
   return (
-    <Card style={loginPageStyle}>
-      <form style={{ padding: '20px' }} onSubmit={handleLogin}>
-        <h3>登录</h3>
-        <Input
-          isClearable
-          placeholder="用户名"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          style={loginInputStyle}
-        />
-        <Input
-          isClearable
-          placeholder="密码"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={loginInputStyle}
-        />
-        <Button type="submit" style={{ marginTop: '20px' }}>登录</Button>
-      </form>
-    </Card>
+    <Form
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      style={loginPageStyle}
+      initialValues={{ remember: true }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <h3>登录</h3>
+      <Form.Item<FieldType>
+        label="登录邮箱"
+        name="username"
+        rules={[{ required: true, message: 'Please input your email!' }]}
+      >
+        <Input type='email' />
+      </Form.Item>
+
+      <Form.Item<FieldType>
+        label="Password"
+        name="password"
+        rules={[{ required: true, message: 'Please input your password!' }]}
+      >
+        <Input.Password />
+      </Form.Item>
+
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit">
+          登录
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 

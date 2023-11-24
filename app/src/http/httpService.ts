@@ -45,10 +45,13 @@ class HttpService {
     // const earningOffers = await this.axiosInstance.get('/api/okx/earning/offers');
     // const earningOrderActive = await this.axiosInstance.get('/api/okx/earning/orders-active');
     // const fundingSavingBalance = await this.axiosInstance.get('/api/okx/funding/saving-balance');
-    const res = await this.axiosInstance.get('/api/okx/balance');
+    const res = await this.axiosInstance.get('/api/okx/funding/valuation');
     let allMoney = 0;
-    res.data.data.forEach((element: { loanAmt: number; }) => {
-      allMoney += Number(element.loanAmt);
+    if (!res.data.data) {
+      return -1;
+    }
+    res.data.data.forEach((element: any) => {
+      allMoney += Number(element.totalBal);
     });
     return allMoney;
   }

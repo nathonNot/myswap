@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { httpService } from '../../http/httpService';
-import { Col, Flex, Layout, Radio, Row, Space, } from 'antd';
+import { Col, Flex, Layout, List, Radio, Row, Space, } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 
 const headerStyle: React.CSSProperties = {
@@ -20,13 +20,22 @@ const contentStyle: React.CSSProperties = {
     backgroundColor: '#108ee9',
 };
 
+const data = [
+    'Racing car sprays burning fuel into crowd.',
+    'Japanese princess to wed commoner.',
+    'Australian walks 100km after outback crash.',
+    'Man charged over missing wedding girl.',
+    'Los Angeles battles huge wildfires.',
+];
+
 export default function HelloPage() {
     const [allMoney, setAllMoney] = useState(0);
-
     useEffect(() => {
         // 获取总金额
         httpService.getAllMoney().then(money => {
-            setAllMoney(money);
+            if (money >= 0) {
+                setAllMoney(money);
+            }
         });
     }, []);
 
@@ -46,6 +55,15 @@ export default function HelloPage() {
                         </Flex>
 
                     </Col>
+                </Row>
+
+                <Row>
+                    <List
+                        size="small"
+                        bordered
+                        dataSource={data}
+                        renderItem={(item) => <List.Item>{item}</List.Item>}
+                    />
                 </Row>
             </Content>
         </Layout>

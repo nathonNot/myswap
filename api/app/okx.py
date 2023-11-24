@@ -14,7 +14,7 @@ def get_funding_balanc(user_okx: UserOkx = Depends(get_current_user_okx)):
 
 @okx_router.get("/funding/valuation", description="资金账户估值")
 def get_funding_valuation(user_okx: UserOkx = Depends(get_current_user_okx)):
-    return user_okx.get_funding().get_asset_valuation()
+    return user_okx.get_funding().get_asset_valuation("usdt")
 
 @okx_router.get("/earning/offers", description="金融产品项目")
 def get_earning_offers(user_okx: UserOkx = Depends(get_current_user_okx)):
