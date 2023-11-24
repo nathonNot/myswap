@@ -10,5 +10,14 @@ export default defineConfig({
         additionalData: `@import "@nextui-org/react/styles";`
       }
     }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://myswap-api.where22fun.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   }
 })

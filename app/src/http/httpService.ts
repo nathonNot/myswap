@@ -7,12 +7,13 @@ class HttpService {
 
   constructor() {
     let createData = {
-      baseURL: 'https://your-api-url.com', // 你的基础 API URL
+      baseURL: '', // 你的基础 API URL
       headers: {
         'Content-Type': 'application/json'
       }
     }
-    createData.baseURL = "http://8.222.188.249:8000";
+    // createData.baseURL = "http://8.222.188.249:8000";
+    // createData.baseURL = "https://myswap-api.where22fun.com";
     this.axiosInstance = axios.create(createData);
     localStorage.getItem('token') && this.setToken(localStorage.getItem('token')!);
   }

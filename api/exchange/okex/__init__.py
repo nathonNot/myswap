@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, Header
 from fastapi.security import OAuth2PasswordBearer
 from config import local_config
 from db.models_user import get_user_exchange
-from okx import Account, Funding,Earning
+from okx import Account, Funding, Earning
 
 flag = "0"  # 实盘:0 , 模拟盘:1
 # apikey = local_config["exchange"]["okx"]["api_key"]
@@ -46,7 +46,7 @@ def get_current_user_okx(token: str = Depends(oauth2_scheme)):
             raise HTTPException(status_code=401, detail="Not authenticated")
         user_okx = UserOkx()
         user_okx.user_id = user_id
-        user_exchange = get_user_exchange(user_id)
+        user_exchange = get_user_exchange(user_id, "okx")
         if user_exchange:
             user_okx.api_key = user_exchange.api_key
             user_okx.api_secret = user_exchange.api_secret

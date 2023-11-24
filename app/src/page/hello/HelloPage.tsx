@@ -1,7 +1,24 @@
 import { useEffect, useState } from 'react';
-import { Card, CardBody } from "@nextui-org/react";
 import { httpService } from '../../http/httpService';
+import { Col, Flex, Layout, Radio, Row, Space, } from 'antd';
+import { Content, Header } from 'antd/es/layout/layout';
 
+const headerStyle: React.CSSProperties = {
+    textAlign: 'center',
+    color: '#fff',
+    height: 64,
+    paddingInline: 50,
+    lineHeight: '64px',
+    backgroundColor: '#7dbcea',
+};
+
+const contentStyle: React.CSSProperties = {
+    textAlign: 'center',
+    minHeight: 120,
+    lineHeight: '120px',
+    color: '#fff',
+    backgroundColor: '#108ee9',
+};
 
 export default function HelloPage() {
     const [allMoney, setAllMoney] = useState(0);
@@ -14,10 +31,23 @@ export default function HelloPage() {
     }, []);
 
     return (
-        <Card>
-            <CardBody>
-                <p>当前总金额{allMoney}$</p>
-            </CardBody>
-        </Card>
+        <Layout>
+            <Header style={headerStyle}>Header</Header>
+            <Content style={contentStyle}>
+                <Row>
+                    <Col span={24}>
+                        <Flex gap="middle" vertical>
+                            <Flex vertical={false}>
+                                <div>总金额:{allMoney}$</div>
+                                {Array.from({ length: 4 }).map((_, i) => (
+                                    <div key={i} style={{ backgroundColor: i % 2 ? '#1677ff' : '#1677ffbf' }} ></div>
+                                ))}
+                            </Flex>
+                        </Flex>
+
+                    </Col>
+                </Row>
+            </Content>
+        </Layout>
     );
 }

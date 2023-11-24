@@ -24,15 +24,16 @@ class UserExchange(Base):
     __tablename__ = "u_user_exchanges"
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("u_users.id"))
-    exchange_id = Column(Integer, ForeignKey("s_exchanges.id"))
+    exchange = Column(String)
     api_key = Column(String)
     api_secret = Column(String)
     api_passphrase = Column(String)
 
 
-def get_user_exchange(user_id: int):
+def get_user_exchange(user_id: int, exchange_name: str):
     db = get_db_session()
-    
-    user_exchange = db.query(UserExchange).filter(UserExchange.user_id == user_id).filter(UserExchange.exchange_id == 1).first()
+
+    user_exchange = db.query(UserExchange).filter(
+        UserExchange.user_id == user_id).filter(UserExchange.exchange == exchange_name).first()
     db.close()
     return user_exchange

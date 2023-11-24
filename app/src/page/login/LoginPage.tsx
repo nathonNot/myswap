@@ -4,6 +4,19 @@ import { httpService } from '../../http/httpService';
 import { useNavigate } from 'react-router-dom';
 
 
+const loginPageStyle: React.CSSProperties = {
+  textAlign: 'center',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+}
+
+const loginInputStyle: React.CSSProperties = {
+  marginTop: '10px',
+  paddingLeft: '5px',
+}
+
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,16 +38,16 @@ const LoginPage = () => {
   };
 
   return (
-    <Card>
+    <Card style={loginPageStyle}>
       <form style={{ padding: '20px' }} onSubmit={handleLogin}>
-        <h3 style={{ textAlign: 'center' }}>登录</h3>
+        <h3>登录</h3>
         <Input
           isClearable
           placeholder="用户名"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={{ marginTop: '10px' }}
+          style={loginInputStyle}
         />
         <Input
           isClearable
@@ -42,7 +55,7 @@ const LoginPage = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{ marginTop: '10px' }}
+          style={loginInputStyle}
         />
         <Button type="submit" style={{ marginTop: '20px' }}>登录</Button>
       </form>
