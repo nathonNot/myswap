@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from common.token import Token, Login, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, verify_password, verify_token
 from db import get_db
 from db.models_user import User
+from exchange.okex import UserOkx, get_current_user_okx
 
 user_router = APIRouter()
 
@@ -31,3 +32,8 @@ def login_for_access_token(form_data: Login, db: Session = Depends(get_db)):
 def check_token(token: str):
     verify_token(token)
     return "ok"
+
+
+@user_router.get("/funds_change")
+def get_funds_change(user_okx: UserOkx = Depends(get_current_user_okx)):
+    pass

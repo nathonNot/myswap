@@ -9,9 +9,6 @@ flag = "0"  # 实盘:0 , 模拟盘:1
 # secretkey = local_config["exchange"]["okx"]["secret_key"]
 # passphrase = local_config["exchange"]["okx"]["pass"]
 
-apikey = ""
-secretkey = ""
-passphrase = ""
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/user/token")
 
 
@@ -20,6 +17,15 @@ class UserOkx:
     api_key: str
     api_secret: str
     api_passphrase: str
+
+    def __init__(self) -> None:
+        pass
+
+    def __init__(self, user_id: int, api_key: str, api_secret: str, api_passphrase: str):
+        self.user_id = user_id
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.api_passphrase = api_passphrase
 
     def _get_client(self, init):
         return init(self.api_key, self.api_secret, self.api_passphrase, False, flag, debug=False)

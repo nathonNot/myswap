@@ -34,3 +34,5 @@ app.include_router(
     prefix="/api/user",
     tags=["user"],
 )
+
+import common
