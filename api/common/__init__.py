@@ -1,7 +1,11 @@
-from threading import Timer
 from .okx import update_okx_funding_balance
 from loguru import logger
+from apscheduler.schedulers.background import BackgroundScheduler
 
-Timer(60*10, update_okx_funding_balance, args=[]).start()
+
+scheduler = BackgroundScheduler()
+
+scheduler.add_job(update_okx_funding_balance, 'interval', minutes=10)
+scheduler.start()
 
 logger.info("定时任务启动")
