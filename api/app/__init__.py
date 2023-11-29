@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .okx import okx_router
 from .user import user_router
+from .binance import binance_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -34,5 +35,12 @@ app.include_router(
     prefix="/api/user",
     tags=["user"],
 )
+
+app.include_router(
+    binance_router,
+    prefix="/api/binance",
+    tags=["binance"],
+)
+
 
 import common

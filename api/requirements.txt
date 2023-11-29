@@ -72,3 +72,4 @@ zipp==3.17.0
 zope.interface==6.1
 loguru
 APScheduler
+binance-connector
